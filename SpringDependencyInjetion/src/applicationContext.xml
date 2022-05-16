@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<!-- Loading external applicaton.properties file -->
+	<context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- Define your beans here -->
+    
+    <!-- This is constructor injection -->
+    <bean id="myCricketCoach" class="com.practice.dependencyinjection.CricketCoach">
+    	<constructor-arg ref="myFortuneService"></constructor-arg>
+    	
+    	<!-- Injecting literal values from external properties file , note here we can also hardcode the values -->
+    	<property name="bestCoach" value="${bestCoach}"></property>
+    </bean>
+    
+    
+    
+    <!-- This is setter injection -->
+    <bean id="myFootballCoach" class="com.practice.dependencyinjection.FootballCoach">
+    	<property name="fortuneService" ref="sadFortuneService"></property>
+    </bean>
+    
+    
+    
+    
+    <bean id="sadFortuneService" class="com.practice.dependencyinjection.SadFortuneService"></bean>
+    
+    <bean id ="myFortuneService" class="com.practice.dependencyinjection.HappyFortuneService">
+    </bean>
+    
+</beans>
+
+
+
+
+
