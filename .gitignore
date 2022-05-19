@@ -3,3 +3,6 @@
 
 servers/
 lib/
+
+
+# all files here will be ignored
