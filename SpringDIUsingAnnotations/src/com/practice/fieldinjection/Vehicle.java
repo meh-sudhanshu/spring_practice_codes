@@ -1,0 +1,17 @@
+package com.practice.fieldinjection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Vehicle {
+	
+	@Autowired
+	private Car myCar;
+
+	public Car getMyCar() {
+		return myCar;
+	}
+	
+	
+}	
