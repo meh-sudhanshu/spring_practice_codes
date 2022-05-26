@@ -9,8 +9,8 @@ public class Sudhanshu {
 	
 	
 	@Autowired
-	@Qualifier("sudhanshuPlan")
-	private Plan myPlan;
+//	@Qualifier("sudhanshuPlan")
+	private SudhanshuPlan myPlan;
 	
 	public String getMyPlan() {
 		return myPlan.getPlan();

@@ -1,0 +1,9 @@
+--INSERT INTO employee (id, first_name, last_name) VALUES
+--  (1, 'Sudhanshu', 'Kumar'),
+--  (2, 'Manisha', 'Kumari'),
+--  (3, 'Sudhanshu','Kumar'),
+--  (4, 'Manisha', 'Kumari'),
+--  (5, 'Sudhanshu', 'Kumar'),
+--  (6, 'Manisha', 'Kumari'),
+--  (7, 'Sudhanshu', 'Kumar'),
+--  (8, 'Manisha', 'Kumari');
