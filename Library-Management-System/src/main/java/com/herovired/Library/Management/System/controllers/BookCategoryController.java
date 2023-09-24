@@ -1,8 +1,10 @@
 package com.herovired.Library.Management.System.controllers;
 
 
+import com.herovired.Library.Management.System.exception.IdNotFoundException;
 import com.herovired.Library.Management.System.models.BookCategory;
 import com.herovired.Library.Management.System.repositories.BookCategoryRepository;
+import com.herovired.Library.Management.System.services.BookCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -23,18 +25,16 @@ public class BookCategoryController {
 
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
+
+    @Autowired
+    private BookCategoryService bookCategoryService;
     @PostMapping("/save")
     public ResponseEntity<?> saveBookCategory(@Valid  @RequestBody  BookCategory bookCategory , BindingResult resultSet){
 
-        if(resultSet.hasErrors()){
-            HashMap<String,String> errorMap = new HashMap<>();
-            for(FieldError fieldError : resultSet.getFieldErrors()){
-                errorMap.put(fieldError.getField() , fieldError.getDefaultMessage());
-            }
-
-            return  new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+        var errorMap = bookCategoryService.validateRequestBody(bookCategory, resultSet);
+        if(errorMap.size() != 0){
+            return  new ResponseEntity<>(errorMap,HttpStatus.BAD_REQUEST);
         }
-
         var savedBookCategoryObject =  bookCategoryRepository.save(bookCategory);
         return new ResponseEntity<>(savedBookCategoryObject,HttpStatus.ACCEPTED);
     }
@@ -46,19 +46,17 @@ public class BookCategoryController {
 
     @GetMapping("/get-by-id/{id}")// localhost:8080/book-category/get-by-id/
     public Optional<BookCategory> getById(@PathVariable long id){
-        return bookCategoryRepository.findById(id);
+        var optionalBookCategoryObject = bookCategoryRepository.findById(id);
+        if(optionalBookCategoryObject.isEmpty()){
+            throw new IdNotFoundException("id "+id+ " does not exist");
+        }
+
+        return optionalBookCategoryObject;
     }
 
     @GetMapping("/get-all-category-type")
     public List<String> getAllCategoryType(){
-        var bookCategoryTypeList = bookCategoryRepository.findAll();
-        ArrayList<String> categoryList = new ArrayList<>();
-
-        for(BookCategory bookCategory : bookCategoryTypeList){
-            var categoryType = bookCategory.getCategoryType();
-            categoryList.add(categoryType);
-        }
-        return categoryList;
+        return bookCategoryService.getAllCategory();
     }
 
     @GetMapping("/find-by-category-type")
@@ -69,6 +67,21 @@ public class BookCategoryController {
     @GetMapping("/find-by-category-id/{categoryId}")
     public  BookCategory findByCategoryId(@PathVariable int categoryId){
         return bookCategoryRepository.findByCategoryId(categoryId);
+    }
+
+    @PostMapping("/update-book-category-object-by-id/{id}")
+    public ResponseEntity<?> updateBookCategoryObjectById(@PathVariable long id){
+        var bookCategoryObject = bookCategoryRepository.findById(id);
+        if(bookCategoryObject.isPresent()){
+            bookCategoryObject.get().setCategoryType("Science");
+            bookCategoryObject.get().setCategoryId(100);
+            bookCategoryObject.get().setId(id);
+            System.out.println("--------------------------------------"+bookCategoryObject.get().toString());
+            var updatedBookCategoryObject =  bookCategoryRepository.save(bookCategoryObject.get());
+
+            return new ResponseEntity<>(updatedBookCategoryObject,HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>("Object Does not Exist",HttpStatus.BAD_REQUEST);
     }
 
 }

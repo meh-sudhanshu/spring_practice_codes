@@ -15,16 +15,16 @@ public class BookCategory {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "category_type", unique = true , updatable = false)
+    @Column(name = "category_type", unique = true)
     @NotBlank
     @Size(min = 5 , max = 20 , message = "Length should be 5 to 20 in range")
     private String categoryType;
 
 
-    @Column(name = "category_id" , unique = true , updatable = false)
+    @Column(name = "category_id" , unique = true )
     @Min(1)
     @Max(100)
     private int categoryId;
