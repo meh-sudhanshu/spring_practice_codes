@@ -7,6 +7,10 @@ import com.herovired.Library.Management.System.repositories.BookCategoryReposito
 import com.herovired.Library.Management.System.services.BookCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/book-category")
+@CrossOrigin("http://localhost:5173")
 public class BookCategoryController {
 
     @Autowired
@@ -82,6 +87,24 @@ public class BookCategoryController {
             return new ResponseEntity<>(updatedBookCategoryObject,HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>("Object Does not Exist",HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/get-sorted-by-category-type")
+    public List<BookCategory> getBookCategorySortedByCategoryType(@RequestParam String field){
+        Sort sort = Sort.by(field);
+        return bookCategoryRepository.findAll(sort.descending());
+    }
+
+    @GetMapping("/get-paged-data")
+    public ArrayList<BookCategory> getPagedData(@RequestParam(defaultValue = "0") int pageIndex){
+        ArrayList<BookCategory> responseList = new ArrayList<>();
+        Pageable pageable = PageRequest.of(pageIndex,2);
+        var pagedResponse = bookCategoryRepository.findAll(pageable);
+        var pageContent = pagedResponse.getContent();
+        for(BookCategory bookCategory : pageContent){
+            responseList.add(bookCategory);
+        }
+        return responseList;
     }
 
 }
