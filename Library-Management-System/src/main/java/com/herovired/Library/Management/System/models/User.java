@@ -8,6 +8,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+
+    @Column(updatable = false , unique = true)
     private String userName;
     private String userPassword;
 
