@@ -1,0 +1,29 @@
+#
+eureka:
+  instance:
+    prefer-id-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: people-portal
+
+
+#server:
+#  port: 8080 # Port for the Eureka client application
+#
+#spring:
+#  application:
+#    name: eureka-client # Name of the Eureka client application
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka # URL of the Eureka server
+#  instance:
+#    prefer-ip-address: true # Use IP address in registration
+
