@@ -2,8 +2,7 @@ package com.herovired.Library.Management.System.controllers;
 
 import com.herovired.Library.Management.System.Authentication.UserAuthenticationObject;
 import com.herovired.Library.Management.System.Authentication.UserLoginRequestObject;
-import com.herovired.Library.Management.System.models.User;
-import com.herovired.Library.Management.System.models.UserData;
+import com.herovired.Library.Management.System.models.Users;
 import com.herovired.Library.Management.System.repositories.UserDataRepository;
 import com.herovired.Library.Management.System.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -20,19 +20,24 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private UserDataRepository userDataRepository;
 
+    @GetMapping("/test-user")
+    public String testUser(){
+        System.out.println("inside user");
+        return "success";
+    }
+
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user){
-        return userRepository.save(user);
+    public Users registerUser(@RequestBody Users users){
+        return userRepository.save(users);
     }
 
     @GetMapping("/login")
     public UserAuthenticationObject attemptLogin(@RequestBody UserLoginRequestObject userLoginRequestObject){
             var username = userLoginRequestObject.getUsername();
-            var userObject = userRepository.findByUserName(username);
+            var userObject = userRepository.findByUsername(username);
             var userAuthenticationObject = new UserAuthenticationObject();
             if(userObject == null){
                 userAuthenticationObject.setUsername(userAuthenticationObject.getUsername());
@@ -67,5 +72,20 @@ public class UserController {
         }
        return new ResponseEntity<>(userData,HttpStatus.ACCEPTED);
     }
+
+
+    @PostMapping("/delete-by-id/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable long id){
+        var optionalUserObject = userRepository.findById(id);
+        if(optionalUserObject.isPresent()){
+            userRepository.deleteById(id);
+            return new ResponseEntity<>(optionalUserObject,HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>("User id does not exists",HttpStatus.ACCEPTED);
+
+    }
+
+
 
 }

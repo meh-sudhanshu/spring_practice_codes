@@ -1,15 +1,11 @@
 package com.herovired.Library.Management.System.controllers;
 
 
-import com.herovired.Library.Management.System.models.User;
 import com.herovired.Library.Management.System.models.UserData;
 import com.herovired.Library.Management.System.repositories.UserDataRepository;
 import com.herovired.Library.Management.System.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin")
@@ -20,6 +16,12 @@ public class AdminController {
 
     @Autowired
     private UserDataRepository userDataRepository;
+
+
+    @GetMapping("/test-admin")
+    public String testAdmin(){
+        return "Testing admin";
+    }
 
     @PostMapping("/block-user/{username}")
     public UserData blockUser(@PathVariable String username){
