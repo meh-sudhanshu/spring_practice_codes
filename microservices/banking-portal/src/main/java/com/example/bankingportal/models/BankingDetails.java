@@ -1,13 +1,6 @@
-package com.example.peopleportal.models;
-
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.example.bankingportal.models;
 
 public class BankingDetails {
-
     private String accountNumber;
     private String accountBalance;
     private String bankName;
@@ -43,14 +36,5 @@ public class BankingDetails {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
-    }
-
-    @Override
-    public String toString() {
-        return "BankingDetails{" +
-                "accountNumber='" + accountNumber + '\'' +
-                ", accountBalance='" + accountBalance + '\'' +
-                ", bankName='" + bankName + '\'' +
-                '}';
     }
 }
