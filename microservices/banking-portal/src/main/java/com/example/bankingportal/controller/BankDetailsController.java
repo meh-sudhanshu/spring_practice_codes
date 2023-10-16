@@ -22,6 +22,8 @@ public class BankDetailsController {
         return  new ResponseEntity<>(bankingDetails, HttpStatusCode.valueOf(200));
     }
 
+    
+
 
 
 }
