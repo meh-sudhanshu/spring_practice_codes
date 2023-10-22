@@ -19,6 +19,6 @@ public interface UserService {
 
     ResponseEntity<?> register(User user, BindingResult result);
 
-
+    User findByUsername(String username);
 
 }

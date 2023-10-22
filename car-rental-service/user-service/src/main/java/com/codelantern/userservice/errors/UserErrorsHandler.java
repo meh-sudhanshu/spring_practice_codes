@@ -23,6 +23,13 @@ public class UserErrorsHandler {
     }
 
 
+    public HashMap<String,String> passwordMismatchHandler(String password){
+        HashMap<String,String> errorMap = new HashMap<>();
+        errorMap.put("Password","Invalid Password");
+        return errorMap;
+    }
+
+
 
 
 }

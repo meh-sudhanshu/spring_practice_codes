@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<?> register(User user, BindingResult result) {
         var errorMap = userErrorsHandler.validateUserObject(user,result);
-
         if(errorMap.isEmpty()){
             String userId = UUID.randomUUID().toString();
             user.setUserId(userId);
@@ -61,7 +60,11 @@ public class UserServiceImpl implements UserService {
             var registeredUserObject = userRepository.save(user);
             return new ResponseEntity<>(registeredUserObject,HttpStatusCode.valueOf(200));
         }
-
         return new ResponseEntity<>(errorMap,HttpStatusCode.valueOf(400));
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
